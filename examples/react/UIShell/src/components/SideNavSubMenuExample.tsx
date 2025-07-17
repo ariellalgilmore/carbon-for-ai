@@ -7,8 +7,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import React from 'react';
 import type { routesType } from '../config/routes';
-import { SideNavDivider, SideNavMenu, SideNavMenuItem } from '@carbon/react';
+import { SideNavMenu, SideNavMenuItem } from '@carbon-labs/react-ui-shell';
 import { Link, useLocation } from 'react-router';
 
 export const SideNavSubMenuExample = (route: routesType) => {
@@ -20,30 +21,18 @@ export const SideNavSubMenuExample = (route: routesType) => {
   }
 
   return (
-    <>
-      <SideNavMenu renderIcon={carbon?.icon} title={carbon?.label} key={path}>
-        {carbon.subMenu.map((subRoute: routesType) => {
-          const carbonSub = subRoute.carbon;
-          const subPath = path + subRoute.path;
-
-          return carbonSub && carbonSub.subMenu ? (
-            <SideNavSubMenuExample path={subPath} carbon={carbonSub} />
-          ) : (
-            <div key={subRoute.path}>
-              <SideNavMenuItem
-                as={Link}
-                to={subRoute.path}
-                isActive={subRoute.path === location.pathname}>
-                {carbonSub?.label}
-              </SideNavMenuItem>
-              {carbonSub?.separator && <SideNavDivider />}
-            </div>
-          );
-        })}
-      </SideNavMenu>
-      {carbon?.separator && (
-        <SideNavDivider data-key={path} key={`${path}--divider`} />
-      )}
-    </>
+    <SideNavMenu renderIcon={carbon?.icon} title={carbon?.label}>
+      {carbon.subMenu?.map((item) => {
+        return (
+          <SideNavMenuItem
+            key={path}
+            as={Link}
+            to={item.path}
+            isActive={item.path === location.pathname}>
+            {item.carbon?.label}
+          </SideNavMenuItem>
+        );
+      })}
+    </SideNavMenu>
   );
 };

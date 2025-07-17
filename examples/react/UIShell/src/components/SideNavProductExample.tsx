@@ -7,6 +7,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+import React from 'react';
 import { SideNavSlot, SideNavLink } from '@carbon-labs/react-ui-shell';
 import { SideNavDivider } from '@carbon/react';
 import { Link, useLocation } from 'react-router';
@@ -22,32 +23,26 @@ export const SideNavProductExample = ({
 }: SideNavProductExampleProps) => {
   const location = useLocation();
 
-  return (
-    <>
-      {routesInSideNav.map((route) => {
-        const { path, carbon } = route;
+  return routesInSideNav.map((route) => {
+    const { path, carbon } = route;
 
-        return carbon?.subMenu ? (
-          <SideNavSubMenuExample path={path} carbon={carbon} key={path} />
+    return carbon?.subMenu ? (
+      <SideNavSubMenuExample path={path} carbon={carbon} key={path} />
+    ) : (
+      <div key={path}>
+        {carbon?.slot ? (
+          <SideNavSlot renderIcon={carbon.icon}>{carbon.slot()}</SideNavSlot>
         ) : (
-          <div key={path}>
-            {carbon?.slot ? (
-              <SideNavSlot renderIcon={carbon.icon}>
-                {carbon.slot()}
-              </SideNavSlot>
-            ) : (
-              <SideNavLink
-                as={Link}
-                to={path}
-                isActive={path === location.pathname}
-                renderIcon={carbon?.icon}>
-                {carbon?.label}
-              </SideNavLink>
-            )}
-            {carbon?.separator && <SideNavDivider />}
-          </div>
-        );
-      })}
-    </>
-  );
+          <SideNavLink
+            as={Link}
+            to={path}
+            isActive={path === location.pathname}
+            renderIcon={carbon?.icon}>
+            {carbon?.label}
+          </SideNavLink>
+        )}
+        {carbon?.separator && <SideNavDivider />}
+      </div>
+    );
+  });
 };
