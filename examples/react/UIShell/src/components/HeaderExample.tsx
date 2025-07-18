@@ -164,22 +164,8 @@ export const HeaderExample = ({ children }) => {
                       );
                     })}
                   </SideNavMenu>
-                ) : carbon?.slot ? (
-                  <>
-                    <SideNavSlot renderIcon={carbon.icon}>
-                      {carbon?.slot()}
-                    </SideNavSlot>
-                    {carbon?.separator && <SideNavDivider />}
-                  </>
                 ) : (
-                  <SideNavLink
-                    as={RouterLink}
-                    to={path}
-                    onClick={(e) => console.log(path)}
-                    isActive={path === location.pathname}
-                    renderIcon={carbon.icon}>
-                    {carbon?.label}
-                  </SideNavLink>
+                  <SideNavProductExample routesInSideNav={[{ path, carbon }]} key={path} />
                 )
               )}
             </SideNavItems>
